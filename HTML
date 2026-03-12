@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Empréstimo Pré-Aprovado</title>
+    <style>
+        :root {
+            --primary-color: #2ecc71;
+            --secondary-color: #27ae60;
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        h2 { text-align: center; color: var(--secondary-color); }
+        
+        .pre-approved {
+            background: #e8f5e9;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            border: 1px dashed var(--primary-color);
+        }
+
+        .form-group { margin-bottom: 1.2rem; }
+        
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        
+        input[type="range"] { width: 100%; cursor: pointer; }
+        
+        select, input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .result-box {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .total-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover { background-color: var(--secondary-color); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Simulador de Crédito</h2>
+    
+    <div class="pre-approved">
+        <span>Crédito Pré-Aprovado: <strong>R$ 1.500,00</strong></span>
+    </div>
+
+    <div class="form-group">
+        <label for="amount">Quanto você precisa?</label>
+        <input type="range" id="amountRange" min="100" max="1500" step="50" value="1500">
+        <input type="number" id="amountInput" value="1500" max="1500">
+    </div>
+
+    <div class="form-group">
+        <label for="installments">Parcelar em quantas vezes?</label>
+        <select id="installments">
+            <option value="3">3x</option>
+            <option value="6">6x</option>
+            <option value="12" selected>12x</option>
+            <option value="24">24x</option>
+        </select>
+    </div>
+
+    <div class="result-box">
+        <div class="result-item">
+            <span>Valor da Parcela:</span>
+            <span id="installmentValue">R$ 0,00</span>
+        </div>
+        <div class="result-item">
+            <span>Taxa de Juros:</span>
+            <span>2,99% a.m.</span>
+        </div>
+        <hr>
+        <div class="result-item">
+            <span>Total a Pagar:</span>
+            <span id="totalValue" class="total-value">R$ 0,00</span>
+        </div>
+    </div>
+
+    <button onclick="alert('Solicitação enviada para análise!')">Contratar Empréstimo</button>
+</div>
+
+<script>
+    const amountRange = document.getElementById('amountRange');
+    const amountInput = document.getElementById('amountInput');
+    const installmentsSelect = document.getElementById('installments');
+    const installmentDisplay = document.getElementById('installmentValue');
+    const totalDisplay = document.getElementById('totalValue');
+
+    const INTEREST_RATE = 0.0299; // 2.99% ao mês
+
+    function calculate() {
+        let principal = parseFloat(amountInput.value);
+        let months = parseInt(installmentsSelect.value);
+
+        if (principal > 1500) {
+            principal = 1500;
+            amountInput.value = 1500;
+        }
+
+        // Fórmula de Juros Compostos para Parcelamento (Price)
+        // PMT = P * [i(1+i)^n] / [(1+i)^n - 1]
+        let monthlyRate = INTEREST_RATE;
+        let pmt = principal * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+        let total = pmt * months;
+
+        installmentDisplay.innerText = pmt.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        totalDisplay.innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    // Sincronizar Range e Input
+    amountRange.addEventListener('input', (e) => {
+        amountInput.value = e.target.value;
+        calculate();
+    });
+
+    amountInput.addEventListener('input', (e) => {
+        amountRange.value = e.target.value;
+        calculate();
+    });
+
+    installmentsSelect.addEventListener('change', calculate);
+
+    // Inicializar cálculo
+    calculate();
+</script>
+
+</body>
+</html>
